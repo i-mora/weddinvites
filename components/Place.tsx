@@ -40,7 +40,6 @@ type Place = {
   imageURL: string;
   title: string;
   address: string;
-  ref: RefObject<HTMLDialogElement>;
   googleMapsURL: string;
   uberURL: string;
   appleMapsURL: string;
@@ -54,7 +53,6 @@ export default function Place() {
       imageURL: "/san_antonio.jpeg",
       title: "Templo de San Antonio de Padua",
       address: "Calle Pedro Parga 252, Zona Centro, 20000 Aguascalientes, Ags.",
-      ref: useRef<HTMLDialogElement>(null),
       googleMapsURL: "https://maps.app.goo.gl/FDo4iqi65nMnnz3m8",
       uberURL:
         "https://m.uber.com/?action=setPickup&drop%5B0%5D=%7B%22addressLine1%22:%22Templo%20de%20San%20Antonio%22,%22addressLine2%22:%22Calle%20General%20Ignacio%20Zaragoza%20,%20Aguascalientes%20Centro,%20Aguascalientes,%2020000%20,%20AG%22,%22id%22:%22here:pds:place:4849ezk8-83fcb48526f7f251e6a7448582ccf81e%22,%22source%22:%22SEARCH%22,%22latitude%22:21.88565,%22longitude%22:-102.29155,%22provider%22:%22here_places%22%7D",
@@ -68,7 +66,6 @@ export default function Place() {
       imageURL: "/kalamata.jpeg",
       title: "Kalamata (jardín de eventos)",
       address: "Calle Pedro Parga 252, Zona Centro, 20000 Aguascalientes, Ags",
-      ref: useRef<HTMLDialogElement>(null),
       googleMapsURL: "https://maps.app.goo.gl/1mNu3dhT9gsLHVHR9",
       uberURL:
         "https://m.uber.com/?action=setpickup?drop%5B0%5D=%7B%22addressLine1%22:%22KALAMATA%20Jard%C3%ADn%20de%20Eventos%22,%22addressLine2%22:%22Avenida%20del%20Paraiso%20S/N%20Hacienda%20Nueva,%2020010%20Aguascalientes,%20Ags.%22,%22id%22:%22ChIJmwHGuzDpKYQRswhEm5TINIc%22,%22source%22:%22SEARCH%22,%22latitude%22:21.896518,%22longitude%22:-102.3569333,%22provider%22:%22google_places%22%7D",
@@ -91,7 +88,7 @@ export default function Place() {
           <div className="flex flex-col w-full md:flex-row gap-y-8 md:gap-x-8">
             {places.map((place) => {
               return (
-                <Card className="flex-grow shadow-lg">
+                <Card className="flex-grow shadow-lg" key={place.id}>
                   <CardHeader
                     floated={false}
                     color="transparent"

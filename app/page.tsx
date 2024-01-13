@@ -16,35 +16,35 @@ export default function Home() {
       <div className="z-10 top-0 p-0 navbar absolute w-full items-center justify-between font-mono text-sm lg:flex">
         <ul
           className="navbar-start menu menu-horizontal
-          fixed top-0 left-0 flex w-full bg-base-200 border-b border-gray-300 py-2 backdrop-blur-2xl
+          fixed top-0 left-0 flex gap-3 w-full bg-base-200 border-b border-gray-300 py-2 backdrop-blur-2xl
           lg:rounded-box lg:static lg:w-fit lg:h-auto lg:border"
         >
-          <li>
-            <a href="#asistencia">
+          <li className="hover:shadow-mds hover:bg-gray-100 rounded-md p-2">
+            <a className = "flex flex-col items-center" href="#asistencia">
               <Image src={InvitationIcon} alt="Asistencia" width={20} />
               Asistencia
             </a>
           </li>
-          <li>
-            <a href="#invitados">
+          <li className="hover:shadow-mds hover:bg-gray-100 rounded-md p-2">
+            <a className = "flex flex-col items-center" href="#invitados">
               <Image src={NewlyWedsIcon} alt="Invitados" width={20} />
               Invitados
             </a>
           </li>
-          <li>
-            <a href="#vestimenta">
+          <li className="hover:shadow-mds hover:bg-gray-100 rounded-md p-2">
+            <a className = "flex flex-col items-center" href="#vestimenta">
               <Image src={DressIcon} alt="Código de vestimenta" width={20} />
               Vestimenta
             </a>
           </li>
-          <li>
-            <a href="#itinerario">
+          <li className="hover:shadow-mds hover:bg-gray-100 rounded-md p-2">
+            <a className = "flex flex-col items-center" href="#itinerario">
               <Image src={SignIcon} alt="Itinerario" width={20} />
               Itinerario
             </a>
           </li>
-          <li>
-            <a href="#lugar">
+          <li className="hover:shadow-mds hover:bg-gray-100 rounded-md p-2">
+            <a className = "flex flex-col items-center" href="#lugar">
               <Image src={WeddingArchIcon} alt="Lugar" width={20} />
               Lugar
             </a>
@@ -61,7 +61,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="hero min-h-screen relative place-items-center my-12">
+      <div className="hero min-h-fit relative place-items-center my-12">
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-center text-neutral-content">
           <div className="max-w-md">

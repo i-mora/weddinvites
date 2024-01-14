@@ -9,6 +9,7 @@ import NewlyWedsIcon from '../public/newlyweds.png'
 import WeddingArchIcon from '../public/weddign-arch.png'
 import Place from '@/components/Place'
 import Assistance from '@/components/Assistance'
+import { Itinerary } from '@/components/Itinerary/Itinerary'
 
 export default function Home() {
   return (
@@ -130,11 +131,10 @@ export default function Home() {
           </div>
           <div className='card bg-base-100 shadow-xl'>
             <div className='card-body items-center text-center'>
-              <h2 className={`card-title`}>Itinerario </h2>
-              <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                Instantly deploy your Next.js site to a shareable URL with
-                Vercel.
-              </p>
+              <h2 className={`card-title`}>Itinerario</h2>
+              <div className='flex justify-center'>
+                <Itinerary type='photograph' />
+              </div>
             </div>
           </div>
         </div>

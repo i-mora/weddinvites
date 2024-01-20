@@ -6,8 +6,8 @@ type Params = {
   code: string
 }
 
-const INTEGRATION_SECRET = 'secret_W4UG7cmNojXJa6zMgLN34HaVmJGaimRxy2frviQws9r'
-const DATABASE_ID = '2c0b5c598a934d5b8f5265cfa6b31790'
+const INTEGRATION_SECRET: string = process.env.INTEGRATION_SECRET || ''
+const DATABASE_ID: string = process.env.DATABASE_ID || ''
 
 const notion = new Client({
   auth: INTEGRATION_SECRET,

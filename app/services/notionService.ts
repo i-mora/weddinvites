@@ -1,31 +1,21 @@
 import { Client, LogLevel } from '@notionhq/client'
 import { type QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
-import { type NextRequest } from 'next/server'
-
-type Params = {
-  code: string
-}
-
-const INTEGRATION_SECRET: string = process.env.INTEGRATION_SECRET || ''
-const DATABASE_ID: string = process.env.DATABASE_ID || ''
+import { DATABASE_ID, INTEGRATION_SECRET } from '../appSettings'
 
 const notion = new Client({
   auth: INTEGRATION_SECRET,
   logLevel: LogLevel.DEBUG,
 })
 
-const GETUserInfo = async (_: NextRequest, { params }: { params: Params }) => {
+export default async function GETUserInfo(code: string) {
   const res: QueryDatabaseResponse = await notion.databases.query({
     database_id: DATABASE_ID,
     filter: {
       property: 'Code',
       rich_text: {
-        equals: params.code, // query param
+        equals: code,
       },
     },
   })
-
-  return Response.json(res.results)
+  return res.results
 }
-
-export const GET = GETUserInfo

@@ -1,9 +1,9 @@
 'use client'
-interface HashIconProps {
+interface IconProps {
   width: string
   height: string
 }
-export const HashIcon = ({ width, height }: HashIconProps) => (
+export const HashIcon = ({ width, height }: IconProps) => (
   <svg
     height={height}
     width={width}

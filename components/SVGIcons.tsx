@@ -2,6 +2,7 @@
 interface IconProps {
   width: string
   height: string
+  classStyles?: string
 }
 export const HashIcon = ({ width, height }: IconProps) => (
   <svg
@@ -67,5 +68,99 @@ export const HashIcon = ({ width, height }: IconProps) => (
 	c3.06,3.542,7.484,5.493,12.459,5.493c10.173,0,15.985-6.917,17.232-13.771l11.696-68.51h96.567L278.441,403.263z M294.966,307.316
 	h-95.967l18.038-104.617h95.966L294.966,307.316z M220.81,288.944h58.68l11.702-67.872h-58.68L220.81,288.944z'
     />
+  </svg>
+)
+
+export const MailIcon = ({ width, height, classStyles }: IconProps) => (
+  <svg
+    id='Layer_1'
+    xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 512 512'
+    width={width}
+    height={height}
+    className={classStyles}
+  >
+    <rect y='81.571' style={{ fill: '#CFDCE5' }} width='512' height='348.857' />
+    <path
+      style={{ fill: '#BAC6CC' }}
+      d='M512,81.571h-14.571L256,292.568L14.558,81.571H0v12.73L185.025,256L0,417.698v12.73h14.571
+	L199.595,268.73L256,318.233l56.405-49.503l185.025,161.698H512v-12.73L326.963,256L512,94.302V81.571z M199.595,268.73
+	L199.595,268.73L199.595,268.73L199.595,268.73z M312.405,268.73L312.405,268.73L312.405,268.73L312.405,268.73z'
+    />
+  </svg>
+)
+
+export const BBVAIcon = ({ height, width, classStyles }: IconProps) => (
+  <svg
+    width={width ?? '800px'}
+    height={height ?? '800px'}
+    viewBox='0 0 48 48'
+    id='b'
+    xmlns='http://www.w3.org/2000/svg'
+    className={`fill-none stroke-white rounded ${classStyles}`}
+  >
+    <path
+      className='c'
+      d='m40.5,5.5H7.5c-1.1,0-2,.9-2,2v33c0,1.1.9,2,2,2h33c1.1,0,2-.9,2-2V7.5c0-1.1-.9-2-2-2Z'
+    />
+
+    <g>
+      <polyline
+        className='c'
+        points='31.1909 19.7988 27.8429 27.7988 24.4949 19.7988'
+      />
+
+      <polyline
+        className='c'
+        points='31.5332 26.2012 34.8812 18.2012 38.2292 26.2012'
+      />
+
+      <g>
+        <path
+          className='c'
+          d='m20.6829,23.7988c1.1046,0,2,.8954,2,2s-.8954,2-2,2h-3.3v-8h3.3c1.1046,0,2,.8954,2,2s-.8954,2-2,2h0Z'
+        />
+
+        <line
+          className='c'
+          x1='20.6829'
+          y1='23.7988'
+          x2='17.3829'
+          y2='23.7988'
+        />
+      </g>
+
+      <g>
+        <path
+          className='c'
+          d='m13.0708,23.7988c1.1046,0,2,.8954,2,2s-.8954,2-2,2h-3.3v-8h3.3c1.1046,0,2,.8954,2,2s-.8954,2-2,2h0Z'
+        />
+
+        <line
+          className='c'
+          x1='13.0708'
+          y1='23.7988'
+          x2='9.7708'
+          y2='23.7988'
+        />
+      </g>
+    </g>
+  </svg>
+)
+
+export const MasterCArdIcon = ({ width, height, classStyles }: IconProps) => (
+  <svg
+    className={`text-white fill-current ${classStyles}`}
+    xmlns='http://www.w3.org/2000/svg'
+    width={width ?? '30'}
+    height={height ?? '30'}
+    viewBox='0 0 48 48'
+  >
+    <path fill='#ff9800' d='M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z'></path>
+    <path fill='#d50000' d='M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z'></path>
+    <path
+      fill='#ff3d00'
+      d='M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z'
+    ></path>
   </svg>
 )

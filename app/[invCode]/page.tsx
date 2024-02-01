@@ -11,6 +11,7 @@ import WeddingArchIcon from '../../public/weddign-arch.png'
 import { Itinerary } from '@/components/Itinerary/Itinerary'
 import { redirect } from 'next/navigation'
 import GETUserInfo from '../services/notionService'
+import { Gifts } from '@/components/Gifts/Gifts'
 
 interface InvitationPageProps {
   params: { invCode?: string }
@@ -112,6 +113,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
           </div>
           <Place />
         </div>
+        <Gifts />
       </div>
     </div>
   )

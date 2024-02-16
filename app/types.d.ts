@@ -22,7 +22,7 @@ export interface Itinerary {
 }
 
 export interface Restriction {
-  icon: JSX.Element
+  icon: string
   name: string
 }
 

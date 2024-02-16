@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import { type ActivityLocation, Itinerary } from '../types'
-import { NoCameraIcon, NoPhoneIcon } from '@/components/SVGIcons'
 
 export const CreateInvCodeSchema = z.object({
   Code: z.string().min(3).max(4),
@@ -83,19 +82,11 @@ export const Itineraries: Itinerary[] = [
           WeddingPlaces[0],
         codesConduct: [
           {
-            icon: NoCameraIcon({
-              width: '30px',
-              height: '30px',
-              classStyles: 'h5 w6',
-            }),
+            icon: 'no-camera',
             name: 'No tomar fotos',
           },
           {
-            icon: NoPhoneIcon({
-              width: '30px',
-              height: '30px',
-              classStyles: 'h5 w6',
-            }),
+            icon: 'no-phone',
             name: 'Asegúrate de tener el teléfono en modo vibrar',
           },
         ],
@@ -108,19 +99,11 @@ export const Itineraries: Itinerary[] = [
           WeddingPlaces.find((p) => p.id === 'kalamata_1') ?? WeddingPlaces[0],
         codesConduct: [
           {
-            icon: NoCameraIcon({
-              width: '30px',
-              height: '30px',
-              classStyles: 'h5 w6',
-            }),
+            icon: 'no-camera',
             name: 'No tomar fotos',
           },
           {
-            icon: NoPhoneIcon({
-              width: '30px',
-              height: '30px',
-              classStyles: 'h5 w6',
-            }),
+            icon: 'no-phone',
             name: 'Asegúrate de tener el teléfono en modo vibrar',
           },
         ],
@@ -133,19 +116,11 @@ export const Itineraries: Itinerary[] = [
           WeddingPlaces.find((p) => p.id === 'kalamata_1') ?? WeddingPlaces[0],
         codesConduct: [
           {
-            icon: NoCameraIcon({
-              width: '30px',
-              height: '30px',
-              classStyles: 'h5 w6',
-            }),
+            icon: 'no-camera',
             name: 'No tomar fotos',
           },
           {
-            icon: NoPhoneIcon({
-              width: '30px',
-              height: '30px',
-              classStyles: 'h5 w6',
-            }),
+            icon: 'no-phone',
             name: 'Asegúrate de tener el teléfono en modo vibrar',
           },
         ],

@@ -21,6 +21,7 @@ import Weather from '@/components/Weather'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { useEffect, useState } from 'react'
+import { Icon } from '../Icon'
 
 interface ItineraryItemProps {
   activityIcon: JSX.Element
@@ -93,7 +94,7 @@ export function ItineraryItem({
           {codesConduct?.map((code) => (
             <Tooltip key={crypto.randomUUID()} content={code.name}>
               <span className='cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70'>
-                {code.icon}
+                <Icon name={code.icon} classStyles='h5 w6' />
               </span>
             </Tooltip>
           ))}

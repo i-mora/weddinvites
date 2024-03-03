@@ -1,4 +1,4 @@
-import Assistance from '@/components/Assistance'
+import Assistance from '@/components/Assistance/Assistance'
 import Navbar from '@/components/NavBar'
 import Place from '@/components/Place'
 import Image from 'next/image'
@@ -29,9 +29,9 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
   return (
     <div className='flex-col items-center justify-between p-4'>
       <Navbar />
-      <div className='hero min-h-fit relative place-items-center my-12'>
+      <div className='hero relative my-12 min-h-fit place-items-center'>
         <div className='hero-overlay bg-opacity-60'></div>
-        <div className='hero-content text-center text-neutral-content'>
+        <div className='hero-content text-neutral-content text-center'>
           <div className='max-w-md'>
             <h1 className='mb-5 text-5xl font-bold'>Hello there</h1>
             <p className='mb-5'>
@@ -44,19 +44,10 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
         </div>
       </div>
       <div
-        className='snap-proximity snap-y mb-32 flex flex-col flex-wrap gap-y-4 text-center w-full
-    lg:flex-row lg:gap-x-4 lg:max-w-full lg:mb-0 lg:grid-cols-4 lg:text-left'
+        className='mb-32 flex w-full snap-y snap-proximity flex-col flex-wrap gap-y-4 text-center
+    lg:mb-0 lg:max-w-full lg:grid-cols-4 lg:flex-row lg:gap-x-4 lg:text-left'
       >
-        <div id='asistencia' className='snap-start flex-grow'>
-          <div className='divider lg:hidden'>
-            <span className='contents transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
-              <Image src={InvitationIcon} alt='Invitación' width={32} />
-            </span>
-          </div>
-          <Assistance />
-        </div>
-
-        <div id='invitados' className='snap-start flex-grow'>
+        <div id='invitados' className='flex-grow snap-start'>
           <div className='divider lg:hidden'>
             <span className='contents transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
               <Image src={NewlyWedsIcon} alt='Invitados' width={32} />
@@ -72,7 +63,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
           </div>
         </div>
 
-        <div id='vestimenta' className='snap-start flex-grow'>
+        <div id='vestimenta' className='flex-grow snap-start'>
           <div className='divider lg:hidden'>
             <span className='contents transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
               <Image src={DressIcon} alt='Vestido' width={32} />
@@ -89,7 +80,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
           </div>
         </div>
 
-        <div id='itinerario' className='snap-start flex-grow'>
+        <div id='itinerario' className='flex-grow snap-start'>
           <div className='divider lg:hidden'>
             <span className='contents transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
               <Image src={SignIcon} alt='Itinerario' width={32} />
@@ -105,7 +96,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
           </div>
         </div>
 
-        <div id='lugar' className='snap-start flex-grow'>
+        <div id='lugar' className='flex-grow snap-start'>
           <div className='divider lg:hidden'>
             <span className='contents transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
               <Image src={WeddingArchIcon} alt='Lugar' width={32} />
@@ -114,6 +105,15 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
           <Place />
         </div>
         <Gifts />
+
+        <div id='asistencia' className='flex-grow snap-start'>
+          <div className='divider lg:hidden'>
+            <span className='contents transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
+              <Image src={InvitationIcon} alt='Invitación' width={32} />
+            </span>
+          </div>
+          <Assistance code={params.invCode} />
+        </div>
       </div>
     </div>
   )

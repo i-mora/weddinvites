@@ -1,18 +1,18 @@
 'use client'
+
 import { CreditCard } from './CreditCard'
 import { Envelope } from './Envelope'
-import { Typography } from '@material-tailwind/react'
 
 export function Gifts() {
   return (
-    <div className='grid grid-cols-5 gap-3 justify-center items-center max-w-fit'>
-      <Typography variant='h4' color='blue-gray' className='mb-2 col-span-5'>
+    <div className='grid max-w-fit grid-cols-5 items-center justify-center gap-3'>
+      <h4 className='col-span-5 mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-inherit antialiased'>
         Regalos
-      </Typography>
-      <Typography variant='h6' color='blue-gray' className='mb-2 col-span-5'>
+      </h4>
+      <h6 className='col-span-5 mb-2 block font-sans text-base font-semibold leading-relaxed tracking-normal text-inherit antialiased'>
         Su presencia y compañía siempre será nuestro mejor regalo. Sin embargo,
         si desean obsequiarnos algo más, pueden hacerlo a través de:
-      </Typography>
+      </h6>
       <div className='col-span-5 md:col-span-2'>
         <Envelope />
       </div>

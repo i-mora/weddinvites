@@ -5,13 +5,13 @@ import { useTimer } from 'react-timer-hook'
 const WEDDING_DATE = 'Sat Jun 29 2024 17:00:00 GMT-0600'
 
 export default function Countdown() {
-  const expiryTimestamp = new Date(WEDDING_DATE)
-  const { days, hours, minutes, seconds } = useTimer({ expiryTimestamp })
+  let { days, hours, minutes, seconds } = useTimer({
+    expiryTimestamp: new Date(WEDDING_DATE),
+  })
 
   return (
     <>
-      <div className='grid grid-flow-col gap-5 text-center auto-cols-max'>
-        <p className='flex items-center'>Faltan&nbsp;</p>
+      <div className='grid auto-cols-max grid-flow-col gap-5 text-center'>
         <div className='flex flex-col'>
           <span className='countdown font-mono text-4xl'>{days}</span>
           {days === 1 ? 'día' : 'días'}

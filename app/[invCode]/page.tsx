@@ -1,17 +1,16 @@
 import Assistance from '@/components/Assistance'
 import Navbar from '@/components/NavBar'
-import Place from '@/components/Place'
 import Image from 'next/image'
 import InvitationIcon from '../../public/invitation.png'
 import DressIcon from '../../public/dress.png'
 import GroomSuitIcon from '../../public/groom-suit.png'
 import SignIcon from '../../public/sign.png'
 import NewlyWedsIcon from '../../public/newlyweds.png'
-import WeddingArchIcon from '../../public/weddign-arch.png'
 import { Itinerary } from '@/components/Itinerary/Itinerary'
 import { redirect } from 'next/navigation'
 import GETUserInfo from '../services/notionService'
 import { Gifts } from '@/components/Gifts/Gifts'
+import { ItineraryType } from '../types'
 
 interface InvitationPageProps {
   params: { invCode?: string }
@@ -22,9 +21,17 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
   if (!params?.invCode) {
     redirect(`/`)
   }
+  let typeGuest: ItineraryType
   const user = await GETUserInfo(params.invCode)
-  if (user && user.length < 1) {
+  if (!user) {
     redirect(`/`)
+  }
+  const typeFile = user.properties['Type']
+  if (typeFile.type === 'select') {
+    typeGuest =
+      (typeFile['select']?.name as ItineraryType) ?? ('none' as ItineraryType)
+  } else {
+    typeGuest = 'none' as ItineraryType
   }
   return (
     <div className='flex-col items-center justify-between p-4'>
@@ -89,29 +96,9 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
           </div>
         </div>
 
-        <div id='itinerario' className='snap-start flex-grow'>
-          <div className='divider lg:hidden'>
-            <span className='contents transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
-              <Image src={SignIcon} alt='Itinerario' width={32} />
-            </span>
-          </div>
-          <div className='card bg-base-100 shadow-xl'>
-            <div className='card-body items-center text-center'>
-              <h2 className={`card-title`}>Itinerario</h2>
-              <div className='flex justify-center'>
-                <Itinerary type='photograph' />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id='lugar' className='snap-start flex-grow'>
-          <div className='divider lg:hidden'>
-            <span className='contents transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
-              <Image src={WeddingArchIcon} alt='Lugar' width={32} />
-            </span>
-          </div>
-          <Place />
+        <div id='itinerario'>
+          <h2>Itinerario</h2>
+          <Itinerary type={typeGuest} />
         </div>
         <Gifts />
       </div>

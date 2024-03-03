@@ -15,6 +15,6 @@ export async function getUser(
   }
   const { Code } = parse.data
   const user = await GETUserInfo(Code)
-  if (user && user[0]) redirect(`/${Code}`)
+  if (user && user.id) redirect(`/${Code}`)
   return { message: 'Código de la invitación incorrecto!' }
 }

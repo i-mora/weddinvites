@@ -1,5 +1,6 @@
 'use client'
 
+import { type Place } from '@/app/types'
 import {
   Accordion,
   AccordionBody,
@@ -14,7 +15,7 @@ import {
 } from '@material-tailwind/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { RefObject, useRef, useState } from 'react'
+import { useState } from 'react'
 
 function Icon({ open }: { open: boolean }) {
   return (
@@ -35,96 +36,43 @@ function Icon({ open }: { open: boolean }) {
   )
 }
 
-type Place = {
-  id: string
-  imageURL: string
-  title: string
-  address: string
-  googleMapsURL: string
-  uberURL: string
-  appleMapsURL: string
-  wazeURL: string
+interface PlaceProps {
+  place: Place
 }
 
-export default function Place() {
-  const places: Place[] = [
-    {
-      id: 'san_antonio_1',
-      imageURL: '/san_antonio.jpeg',
-      title: 'Templo de San Antonio de Padua',
-      address: 'Calle Pedro Parga 252, Zona Centro, 20000 Aguascalientes, Ags.',
-      googleMapsURL: 'https://maps.app.goo.gl/FDo4iqi65nMnnz3m8',
-      uberURL:
-        'https://m.uber.com/?action=setPickup&drop%5B0%5D=%7B%22addressLine1%22:%22Templo%20de%20San%20Antonio%22,%22addressLine2%22:%22Calle%20General%20Ignacio%20Zaragoza%20,%20Aguascalientes%20Centro,%20Aguascalientes,%2020000%20,%20AG%22,%22id%22:%22here:pds:place:4849ezk8-83fcb48526f7f251e6a7448582ccf81e%22,%22source%22:%22SEARCH%22,%22latitude%22:21.88565,%22longitude%22:-102.29155,%22provider%22:%22here_places%22%7D',
-      appleMapsURL:
-        'https://maps.apple.com/?address=Calle%20Pedro%20Parga%20252,%20Zona%20Centro,%2020000%20Aguascalientes,%20Ags.,%20Mexico&auid=11783824115521850239&ll=21.885366,-102.291653&lsp=9902&q=Templo%20de%20San%20Antonio%20de%20Padua',
-      wazeURL:
-        'https://ul.waze.com/ul?place=ChIJryi9q2XuKYQRcAhttVWtgEk&ll=21.88552800%2C-102.29172370&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location',
-    },
-    {
-      id: 'kalamata_1',
-      imageURL: '/kalamata.jpeg',
-      title: 'Kalamata (jardín de eventos)',
-      address: 'Calle Pedro Parga 252, Zona Centro, 20000 Aguascalientes, Ags',
-      googleMapsURL: 'https://maps.app.goo.gl/1mNu3dhT9gsLHVHR9',
-      uberURL:
-        'https://m.uber.com/?action=setpickup?drop%5B0%5D=%7B%22addressLine1%22:%22KALAMATA%20Jard%C3%ADn%20de%20Eventos%22,%22addressLine2%22:%22Avenida%20del%20Paraiso%20S/N%20Hacienda%20Nueva,%2020010%20Aguascalientes,%20Ags.%22,%22id%22:%22ChIJmwHGuzDpKYQRswhEm5TINIc%22,%22source%22:%22SEARCH%22,%22latitude%22:21.896518,%22longitude%22:-102.3569333,%22provider%22:%22google_places%22%7D',
-      appleMapsURL:
-        'https://maps.apple.com/?address=20313%20Aguascalientes,%20Ags.,%20Mexico&auid=14511892419971855363&ll=21.895865,-102.356867&lsp=9902&q=Kalamata%20Jard%C3%ADn%20de%20Eventos',
-      wazeURL:
-        'https://ul.waze.com/ul?place=ChIJmwHGuzDpKYQRswhEm5TINIc&ll=21.89651800%2C-102.35693330&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location',
-    },
-  ]
+export default function Place({ place }: PlaceProps) {
   const [active, setActive] = useState<Place>()
   const [open, setOpen] = useState(false)
 
   return (
     <>
-      <Card className='bg-base-100 shadow-lg'>
-        <CardHeader floated={false} color='transparent' shadow={false}>
-          <Typography variant='h3'>Lugar </Typography>
+      <Card className='w-full max-w-[48rem] flex-row shadow-lg' key={place.id}>
+        <CardHeader
+          shadow={false}
+          floated={false}
+          className='flex m-0 w-2/5 shrink-0 rounded-r-none'
+        >
+          <Image
+            src={place.imageURL}
+            alt={place.title}
+            fill
+            sizes='(max-width: 768px) 100vw, 33vw'
+          />
         </CardHeader>
-        <CardBody className='card-body items-center text-center'>
-          <div className='flex flex-col w-full md:flex-row gap-y-8 md:gap-x-8'>
-            {places.map((place) => {
-              return (
-                <Card className='flex-grow shadow-lg' key={place.id}>
-                  <CardHeader
-                    floated={false}
-                    color='transparent'
-                    className='relative h-56'
-                  >
-                    <Image
-                      className='object-contain'
-                      src={place.imageURL}
-                      alt={place.title}
-                      height={324}
-                      width={800}
-                      style={{ objectFit: 'cover' }}
-                      sizes='(max-width: 768px) 100vw, 33vw'
-                    />
-                  </CardHeader>
-                  <CardBody>
-                    <Typography color='blue-gray' variant='h5'>
-                      {place.title}
-                    </Typography>
-                    <Typography color='gray'>{place.address}</Typography>
-                  </CardBody>
-                  <CardFooter className='pt-3'>
-                    <Button
-                      fullWidth
-                      onClick={() => {
-                        setOpen(false)
-                        setActive(place)
-                      }}
-                    >
-                      ¿Cómo llegar?
-                    </Button>
-                  </CardFooter>
-                </Card>
-              )
-            })}
-          </div>
+        <CardBody>
+          <Typography color='blue-gray' variant='h5'>
+            {place.title}
+          </Typography>
+          <Typography color='gray'>{place.address}</Typography>
+          <Button
+            fullWidth
+            onClick={() => {
+              setOpen(false)
+              setActive(place)
+            }}
+          >
+            ¿Cómo llegar?
+          </Button>
         </CardBody>
       </Card>
 

@@ -1,8 +1,6 @@
 'use client'
 
-import { Timeline, Typography } from '@material-tailwind/react'
 import { ItineraryItem } from './Itinerary-Item'
-import { Icon } from '../Icon'
 import { ItineraryType } from '@/app/types'
 import { Itineraries } from '@/app/lib/consts'
 
@@ -14,32 +12,16 @@ export function Itinerary({ type }: ItineraryProps) {
   const itinerary = Itineraries.find((itinerary) => itinerary.type === type)
 
   return (
-    <div className='max-w-full w-full max-h-full px-2'>
-      <Timeline>
+    <div className='w-[calc(100%_-_3rem)]'>
+      <ul className='flex w-full flex-col'>
         {itinerary ? (
-          itinerary.activities.map((act) => {
-            const {
-              activity,
-              activityIcon,
-              activityTime,
-              activityLocation,
-              codesConduct,
-            } = act
-            return (
-              <ItineraryItem
-                key={activity}
-                activity={activity}
-                activityTime={activityTime.toString()}
-                activityIcon={<Icon name={activityIcon} />}
-                activityLocation={activityLocation}
-                codesConduct={codesConduct}
-              />
-            )
+          itinerary.activities.map((activity) => {
+            return <ItineraryItem key={activity.id} activity={activity} />
           })
         ) : (
-          <Typography>Sin Actividades</Typography>
+          <p>Sin Actividades</p>
         )}
-      </Timeline>
+      </ul>
     </div>
   )
 }

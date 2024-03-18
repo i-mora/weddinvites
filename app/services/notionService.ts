@@ -1,12 +1,10 @@
 import {
   Client,
   LogLevel,
-  isFullPage,
-  isFullPageOrDatabase,
+  isFullPage
 } from '@notionhq/client'
 import {
-  type DatabaseObjectResponse,
-  type QueryDatabaseResponse,
+  type QueryDatabaseResponse
 } from '@notionhq/client/build/src/api-endpoints'
 
 const notion = new Client({

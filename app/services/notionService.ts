@@ -1,5 +1,11 @@
-import { Client, LogLevel } from '@notionhq/client'
-import { type QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
+import {
+  Client,
+  LogLevel,
+  isFullPage
+} from '@notionhq/client'
+import {
+  type QueryDatabaseResponse
+} from '@notionhq/client/build/src/api-endpoints'
 
 const notion = new Client({
   auth: process.env.INTEGRATION_SECRET || '',
@@ -16,5 +22,10 @@ export default async function GETUserInfo(code: string) {
       },
     },
   })
-  return res.results
+  for (const page of res.results) {
+    if (!isFullPage(page)) {
+      continue
+    }
+    return page
+  }
 }

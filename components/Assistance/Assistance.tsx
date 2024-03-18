@@ -6,45 +6,6 @@ import {
   PageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 
-const TABLE_HEAD = ['Invitado', 'Estado', 'Menu', '']
-const TABLE_ROWS = [
-  {
-    name: 'John Michael',
-    role: 'principal',
-    menu: 'Normal',
-    estado: 'confirmado',
-    date: '23/04/18',
-  },
-  {
-    name: 'Alexa Liras',
-    role: 'acompañante',
-    menu: 'Vegetariano',
-    estado: 'confirmado',
-    date: '23/04/18',
-  },
-  {
-    name: 'Laurent Perrier',
-    role: 'acompañante',
-    menu: 'Normal',
-    estado: 'pendiente',
-    date: '19/09/17',
-  },
-  {
-    name: 'Michael Levi',
-    role: 'acompañante',
-    menu: 'Vegetariano',
-    estado: 'confirmado',
-    date: '24/12/08',
-  },
-  {
-    name: 'Richard Gran',
-    role: 'acompañante',
-    menu: 'Infantíl',
-    estado: 'rechazado',
-    date: '04/10/21',
-  },
-]
-
 type property = {
   id: string
 }
@@ -115,9 +76,10 @@ export type guest = {
 } & (PageObjectResponse | DatabaseObjectResponse)
 
 export default async function Assistance({ code }: { code: string }) {
-  const guests = (await GETUserInfo(code)) as guest[]
+  const resp = await GETUserInfo(code)
+  const guests = [resp as guest]
 
-  const main = guests.find(
+  const main = guests?.find(
     (val) =>
       'select' in val.properties.Type &&
       val.properties.Type.select &&

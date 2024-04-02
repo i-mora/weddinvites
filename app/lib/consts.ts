@@ -47,25 +47,28 @@ export const Itineraries: Itinerary[] = [
     type: 'guest',
     activities: [
       {
-        activity: 'Asistir a la misa',
-        activityTime: new Date(),
-        activityIcon: 'church',
-        activityLocation:
+        id: 'asistir-a-la-misa',
+        name: 'Asistir a la misa',
+        time: new Date(),
+        icon: 'church',
+        location:
           WeddingPlaces.find((p) => p.id === 'san_antonio_1') ??
           WeddingPlaces[0],
       },
       {
-        activity: 'Asistir a la comida',
-        activityTime: new Date(),
-        activityIcon: 'turkey-dinner',
-        activityLocation:
+        id: 'asistir-a-la-comida',
+        name: 'Asistir a la comida',
+        time: new Date(),
+        icon: 'turkey-dinner',
+        location:
           WeddingPlaces.find((p) => p.id === 'kalamata_1') ?? WeddingPlaces[0],
       },
       {
-        activity: 'Asistir a la fiesta',
-        activityTime: new Date(),
-        activityIcon: 'disco-ball',
-        activityLocation:
+        id: 'asistir-a-la-fiesta',
+        name: 'Asistir a la fiesta',
+        time: new Date(),
+        icon: 'disco-ball',
+        location:
           WeddingPlaces.find((p) => p.id === 'kalamata_1') ?? WeddingPlaces[0],
       },
     ],
@@ -74,10 +77,11 @@ export const Itineraries: Itinerary[] = [
     type: 'Padrino',
     activities: [
       {
-        activity: 'Asistir a la misa',
-        activityTime: new Date(),
-        activityIcon: 'church',
-        activityLocation:
+        id: 'asistir-a-la-misa',
+        name: 'Asistir a la misa',
+        time: new Date(),
+        icon: 'church',
+        location:
           WeddingPlaces.find((p) => p.id === 'san_antonio_1') ??
           WeddingPlaces[0],
         codesConduct: [
@@ -92,10 +96,11 @@ export const Itineraries: Itinerary[] = [
         ],
       },
       {
-        activity: 'Asistir a la comida',
-        activityTime: new Date(),
-        activityIcon: 'turkey-dinner',
-        activityLocation:
+        id: 'asistir-a-la-comida',
+        name: 'Asistir a la comida',
+        time: new Date(),
+        icon: 'turkey-dinner',
+        location:
           WeddingPlaces.find((p) => p.id === 'kalamata_1') ?? WeddingPlaces[0],
         codesConduct: [
           {
@@ -109,10 +114,11 @@ export const Itineraries: Itinerary[] = [
         ],
       },
       {
-        activity: 'Asistir a la fiesta',
-        activityTime: new Date(),
-        activityIcon: 'disco-ball',
-        activityLocation:
+        id: 'asistir-a-la-fiesta',
+        name: 'Asistir a la fiesta',
+        time: new Date(),
+        icon: 'disco-ball',
+        location:
           WeddingPlaces.find((p) => p.id === 'kalamata_1') ?? WeddingPlaces[0],
         codesConduct: [
           {
@@ -131,25 +137,28 @@ export const Itineraries: Itinerary[] = [
     type: 'photograph',
     activities: [
       {
-        activity: 'Session de fotos',
-        activityTime: new Date(),
-        activityIcon: 'camera',
-        activityLocation:
+        id: 'session-de-fotos',
+        name: 'Session de fotos',
+        time: new Date(),
+        icon: 'camera',
+        location:
           WeddingPlaces.find((p) => p.id === 'kalamata_1') ?? WeddingPlaces[0],
       },
       {
-        activity: 'Misa',
-        activityTime: new Date(),
-        activityIcon: 'turkey-dinner',
-        activityLocation:
+        id: 'misa',
+        name: 'Misa',
+        time: new Date(),
+        icon: 'turkey-dinner',
+        location:
           WeddingPlaces.find((p) => p.id === 'san_antonio_1') ??
           WeddingPlaces[0],
       },
       {
-        activity: 'Session de fotos familiar',
-        activityTime: new Date(),
-        activityIcon: 'disco-ball',
-        activityLocation:
+        id: 'session-de-fotos-familiar',
+        name: 'Session de fotos familiar',
+        time: new Date(),
+        icon: 'disco-ball',
+        location:
           WeddingPlaces.find((p) => p.id === 'san_antonio_1') ??
           WeddingPlaces[0],
       },

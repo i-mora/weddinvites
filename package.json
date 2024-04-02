@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@material-tailwind/react": "^2.1.8",
+    "@material-tailwind/html": "^2.2.2",
     "@notionhq/client": "^2.2.14",
     "dayjs": "^1.11.10",
     "next": "14.0.4",
@@ -28,7 +28,9 @@
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "typescript": "^5.3.3"
   }
 }

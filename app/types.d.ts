@@ -10,10 +10,11 @@ export type ItineraryType =
   | 'Acompañante'
 
 export interface ItineraryActivity {
-  activity: string
-  activityTime: Date
-  activityIcon: string
-  activityLocation: ActivityLocation
+  id: string
+  name: string
+  time: Date
+  icon: string
+  location: ActivityLocation
   codesConduct?: Restriction[]
 }
 export interface Itinerary {

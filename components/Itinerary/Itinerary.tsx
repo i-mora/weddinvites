@@ -1,5 +1,3 @@
-'use client'
-
 import { ItineraryItem } from './Itinerary-Item'
 import { ItineraryType } from '@/app/types'
 import { Itineraries } from '@/app/lib/consts'

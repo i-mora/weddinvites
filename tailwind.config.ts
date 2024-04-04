@@ -91,6 +91,7 @@ const config: Config = withMT({
       },
     },
   },
+  plugins: [require('@headlessui/tailwindcss')],
 })
 
 export default config

@@ -3,42 +3,35 @@
 import { type Place } from '@/app/types'
 import Image from 'next/image'
 import Link from 'next/link'
-import Script from 'next/script'
-import { useState } from 'react'
-import { GoogleMapsIcon, MapsIcon, UberIcon, WazeIcon } from './SVGIcons'
-
-function Icon({ open }: { open: boolean }) {
-  return (
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      fill='none'
-      viewBox='0 0 24 24'
-      strokeWidth={2}
-      stroke='currentColor'
-      className={`${open ? 'rotate-180' : ''} h-5 w-5 transition-transform`}
-    >
-      <path
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        d='M19.5 8.25l-7.5 7.5-7.5-7.5'
-      />
-    </svg>
-  )
-}
+import { Fragment, useState } from 'react'
+import {
+  ChevronDown,
+  GoogleMapsIcon,
+  MapsIcon,
+  RightArrowIcon,
+  UberIcon,
+  WazeIcon,
+} from './SVGIcons'
+import { Dialog, Disclosure, Transition } from '@headlessui/react'
 
 interface PlaceProps {
   place: Place
 }
 
 export default function Place({ place }: PlaceProps) {
-  const [active, setActive] = useState<Place>()
+  const [active] = useState<Place>(place)
+  let [isOpen, setIsOpen] = useState(false)
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+
+  function openModal() {
+    setIsOpen(true)
+  }
 
   return (
     <>
-      <Script src='https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js'></Script>
-      <Script src='https://unpkg.com/@material-tailwind/html@latest/scripts/dialog.js'></Script>
-      <Script src='https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js'></Script>
-
       <div
         className='relative flex w-full flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md'
         key={place.id}
@@ -65,69 +58,107 @@ export default function Place({ place }: PlaceProps) {
           <div className='p-6 pt-0'>
             <button
               type='button'
-              data-ripple-light='true'
-              data-dialog-target={`dialog-place-${place.id}`}
+              onClick={openModal}
               className='select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'
-              onClick={() => {
-                setActive(place)
-              }}
             >
               ¿Cómo llegar?
             </button>
-            <div
-              data-dialog-backdrop={`dialog-place-${place.id}`}
-              data-dialog-backdrop-close='true'
-              className='pointer-events-none fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-60 opacity-0 backdrop-blur-sm transition-opacity duration-300'
-            >
-              <div
-                data-dialog={`dialog-place-${place.id}`}
-                className='relative m-4 w-2/5 min-w-[40%] max-w-[40%] rounded-lg bg-white font-sans text-base font-light leading-relaxed text-blue-gray-500 antialiased shadow-2xl'
-              >
-                <div className='grid gap-y-4 bg-none p-4'>
-                  <Link href={active?.googleMapsURL || ''} target='_blank'>
-                    <button className='flex w-full items-center justify-center gap-4'>
-                      <GoogleMapsIcon />
-                      Google Maps
-                    </button>
-                  </Link>
-                  <Link href={active?.uberURL || ''} target='_blank'>
-                    <button className='flex w-full items-center justify-center gap-4'>
-                      <UberIcon />
-                      Uber
-                    </button>
-                  </Link>
 
-                  <div className='relative mb-3'>
-                    <h6 className='mb-0'>
-                      <button
-                        className='border-slate-100 text-slate-700 rounded-t-1 group relative flex w-full cursor-pointer items-center border-b border-solid p-4 text-left font-semibold text-dark-500 transition-all ease-in'
-                        data-collapse-target={`animated-collapse-${place.id}`}
-                      >
-                        <span>Más opciones?</span>
-                        <i className='fa fa-chevron-down absolute right-0 pt-1 text-base transition-transform group-open:rotate-180'></i>
-                      </button>
-                    </h6>
-                    <div
-                      data-collapse={`animated-collapse-${place.id}`}
-                      className='grid h-0 gap-y-4 overflow-hidden p-0 transition-all duration-300 ease-in-out'
+            <Transition appear show={isOpen} as={Fragment}>
+              <Dialog as='div' className='relative z-10' onClose={closeModal}>
+                <Transition.Child
+                  as={Fragment}
+                  enter='ease-out duration-300'
+                  enterFrom='opacity-0'
+                  enterTo='opacity-100'
+                  leave='ease-in duration-200'
+                  leaveFrom='opacity-100'
+                  leaveTo='opacity-0'
+                >
+                  <div className='fixed inset-0 bg-black/25' />
+                </Transition.Child>
+
+                <div className='fixed inset-0 overflow-y-auto'>
+                  <div className='flex min-h-full items-center justify-center p-4 text-center'>
+                    <Transition.Child
+                      as={Fragment}
+                      enter='ease-out duration-300'
+                      enterFrom='opacity-0 scale-95'
+                      enterTo='opacity-100 scale-100'
+                      leave='ease-in duration-200'
+                      leaveFrom='opacity-100 scale-100'
+                      leaveTo='opacity-0 scale-95'
                     >
-                      <Link href={active?.appleMapsURL || ''} target='_blank'>
-                        <button className='flex w-full items-center justify-center gap-4'>
-                          <MapsIcon />
-                          Maps
-                        </button>
-                      </Link>
-                      <Link href={active?.wazeURL || ''} target='_blank'>
-                        <button className='flex w-full items-center justify-center gap-4'>
-                          <WazeIcon />
-                          Waze
-                        </button>
-                      </Link>
-                    </div>
+                      <Dialog.Panel className='m-4 flex w-2/5 min-w-[40%] max-w-[40%] flex-col gap-2 rounded-lg bg-white p-3 font-sans text-base font-light leading-relaxed text-white antialiased shadow-2xl'>
+                        <Link
+                          href={active?.googleMapsURL || ''}
+                          target='_blank'
+                        >
+                          <button className='group relative inline-flex h-12 w-full items-center justify-center gap-4 overflow-hidden rounded-md bg-black px-6 font-medium '>
+                            <GoogleMapsIcon />
+                            <span>Google Maps</span>
+                            <div className='w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100'>
+                              <RightArrowIcon classStyles='h-5 w-5' />
+                            </div>
+                          </button>
+                        </Link>
+                        <Link href={active?.uberURL || ''} target='_blank'>
+                          <button className='group relative inline-flex h-12 w-full items-center justify-center gap-4 overflow-hidden rounded-md bg-black px-6 font-medium text-white'>
+                            <UberIcon />
+                            <span>Uber</span>
+                            <div className='w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100'>
+                              <RightArrowIcon classStyles='h-5 w-5' />
+                            </div>
+                          </button>
+                        </Link>
+                        <Disclosure as='div'>
+                          {({ open }) => (
+                            <>
+                              <Disclosure.Button className='border-slate-100 text-slate-700 rounded-t-1 group flex w-full cursor-pointer justify-between border-b border-solid p-4 py-2 text-left font-semibold text-black transition-all ease-in'>
+                                <span>Más opciones?</span>
+                                <div
+                                  className={`${
+                                    open ? 'rotate-180 transform' : ''
+                                  } h-5 w-5`}
+                                >
+                                  <ChevronDown classStyles='h-5 w-5' />
+                                </div>
+                              </Disclosure.Button>
+                              <Disclosure.Panel className='flex flex-col gap-2'>
+                                <Link
+                                  href={active?.appleMapsURL || ''}
+                                  target='_blank'
+                                >
+                                  <button className='group relative inline-flex h-12 w-full items-center justify-center gap-4 overflow-hidden rounded-md bg-black px-6 font-medium text-white'>
+                                    <MapsIcon />
+                                    <span>Maps</span>
+                                    <div className='w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100'>
+                                      <RightArrowIcon classStyles='h-5 w-5' />
+                                    </div>
+                                  </button>
+                                </Link>
+                                <Link
+                                  href={active?.wazeURL || ''}
+                                  target='_blank'
+                                >
+                                  <button className='group relative inline-flex h-12 w-full items-center justify-center gap-4 overflow-hidden rounded-md bg-black px-6 font-medium text-white'>
+                                    <WazeIcon />
+                                    <span>Waze</span>
+                                    <div className='w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100'>
+                                      <RightArrowIcon classStyles='h-5 w-5' />
+                                    </div>
+                                  </button>
+                                </Link>
+                              </Disclosure.Panel>
+                            </>
+                          )}
+                        </Disclosure>
+                      </Dialog.Panel>
+                    </Transition.Child>
                   </div>
                 </div>
-              </div>
-            </div>
+              </Dialog>
+            </Transition>
           </div>
         </div>
       </div>

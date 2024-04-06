@@ -1,90 +1,24 @@
+import { GETUserInfo, NonMainGuestFilter } from '@/app/services/notionService'
+import type { Guest } from '@/types/Notion'
+import { isTextRichTextItemResponse } from '@notionhq/client/build/src/helpers'
 import Script from 'next/script'
 import Pending from './Pending'
-import GETUserInfo from '@/app/services/notionService'
-import {
-  DatabaseObjectResponse,
-  PageObjectResponse,
-} from '@notionhq/client/build/src/api-endpoints'
 
-type property = {
-  id: string
+interface AssistanceProps {
+  main: Guest
 }
-
-type number_prop = property & {
-  type: `number`
-  number: any
-}
-
-type text_prop = property & {
-  type: `text`
-  text: {
-    content: string
-    link: any
-  }
-  annotations: {
-    bold: boolean
-    italic: boolean
-    strikethrough: boolean
-    underline: false
-    code: false
-    color: string
-  }
-  plain_text: string
-  href: any
-}
-
-type rich_text_prop = property & {
-  type: `rich_text`
-  rich_text: text_prop[]
-}
-
-type title_prop = property & {
-  id: `title`
-  type: `title`
-  title: text_prop[]
-}
-
-type select_prop = property & {
-  id: string
-  type: `select`
-  select: {
-    id: string
-    name: string
-    color: string
-  }
-}
-
-type date_prop = property & {
-  id: string
-  type: `date`
-  date?: any
-}
-
-export type guest = {
-  properties: {
-    Table: number_prop
-    Observations: rich_text_prop
-    Menu: select_prop
-    RSVP: select_prop
-    Language: select_prop
-    'Due date': date_prop
-    Code: rich_text_prop
-    Type: select_prop
-    Nickname: rich_text_prop
-    'Full Name': title_prop
-  }
-} & (PageObjectResponse | DatabaseObjectResponse)
-
-export default async function Assistance({ code }: { code: string }) {
-  const resp = await GETUserInfo(code)
-  const guests = [resp as guest]
-
-  const main = guests?.find(
-    (val) =>
-      'select' in val.properties.Type &&
-      val.properties.Type.select &&
-      !['Acompañante', 'Infante'].includes(val.properties.Type.select.name)
+export default async function Assistance({ main }: AssistanceProps) {
+  const guests = await GETUserInfo(
+    main.properties.Code.rich_text[0].plain_text,
+    NonMainGuestFilter
   )
+
+  const refused = main.properties.RSVP.select?.name === 'Refused'
+  const pending = main.properties.RSVP.select?.name === 'Pending'
+  const confirmed = main.properties.RSVP.select?.name === 'Confirmed'
+  const nickname =
+    isTextRichTextItemResponse(main.properties.Nickname.rich_text[0]) &&
+    main.properties.Nickname.rich_text[0].text.content
 
   return (
     <>
@@ -100,34 +34,30 @@ export default async function Assistance({ code }: { code: string }) {
             </h3>
           </div>
 
-          {main && main.properties.RSVP.select.name === 'Refused' && (
+          {refused && (
             <div className='p-6'>
               <div className='card-body items-center text-center'>
                 <p className='block font-sans text-base font-light leading-relaxed text-inherit antialiased'>
-                  {/* m-0 max-w-[30ch] text-sm opacity-50 */}
-                  {main.properties.Nickname.rich_text[0].text.content},
-                  lamentamos mucho que no puedas asistir, pero entendemos que
-                  tendrás algún motivo, probablemente de fuerza mayor. También
-                  agradecemos que nos lo hayas hecho saber en tiempo y forma, ya
-                  que como podrás imaginarte, una boda puede ser muy costosa, de
-                  tal manera que nosotros podamos notificar a nuestra wedding
-                  planner y poder hacer ajustes con nuestros proveedores.
+                  {nickname}, lamentamos mucho que no puedas asistir, pero
+                  entendemos que tendrás algún motivo, probablemente de fuerza
+                  mayor. También agradecemos que nos lo hayas hecho saber en
+                  tiempo y forma, ya que como podrás imaginarte, una boda puede
+                  ser muy costosa, de tal manera que nosotros podamos notificar
+                  a nuestra wedding planner y poder hacer ajustes con nuestros
+                  proveedores.
                 </p>
               </div>
             </div>
           )}
 
-          {main && main.properties.RSVP.select.name === 'Pending' && (
-            <Pending main={main} guests={guests}></Pending>
-          )}
+          {pending && <Pending main={main} guests={guests}></Pending>}
 
-          {main && main.properties.RSVP.select.name === 'Confirmed' && (
+          {confirmed && (
             <div className='p-6'>
               <div className='card-body items-center text-center'>
                 <p className='m-0 max-w-[30ch] text-sm opacity-50'>
-                  Muchas gracias por confirmar tu asistencia,{' '}
-                  {main.properties.Nickname.rich_text[0].text.content}!!! No
-                  aguantamos las ganas por verte en ese día.
+                  Muchas gracias por confirmar tu asistencia, {nickname}!!!
+                  Esperamos con ansias verte en ese día.
                 </p>
               </div>
             </div>

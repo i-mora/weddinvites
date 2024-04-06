@@ -1,16 +1,27 @@
 'use client'
 
+import heartIcon from '@/public/icons/heart.svg'
+
+import type { Guest } from '@/types/Notion'
+import { isTextRichTextItemResponse } from '@notionhq/client/build/src/helpers'
+import Image from 'next/image'
 import Script from 'next/script'
-import type { guest } from './Assistance'
-import { ChangeEvent, useEffect, useRef } from 'react'
+import { useRef, useState } from 'react'
 
 export default function Pending({
   main,
   guests,
 }: {
-  main: guest
-  guests: guest[]
+  main: Guest
+  guests: Guest[]
 }) {
+  // TODO: Implement state processor to update Notion data
+  const onChange = (id: string, guest: Guest) => {}
+
+  const nickname =
+    isTextRichTextItemResponse(main.properties.Nickname.rich_text[0]) &&
+    main.properties.Nickname.rich_text[0].text.content
+
   return (
     <>
       <Script src='https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js'></Script>
@@ -20,8 +31,7 @@ export default function Pending({
       <div className='p-6'>
         <div className='items-center text-center'>
           <p className='m-0 block max-w-[30ch] font-sans text-base font-light leading-relaxed text-inherit antialiased opacity-50'>
-            Hola {main.properties.Nickname.rich_text[0].text.content}, por
-            favor, confírmanos tu presencia antes del{' '}
+            Hola {nickname}, por favor, confírmanos tu presencia antes del{' '}
             <span className='font-bold'>26 de Mayo de 2024</span>.
           </p>
         </div>
@@ -50,15 +60,20 @@ export default function Pending({
                   <h3 className='block font-sans text-2xl font-semibold leading-snug tracking-normal text-sage-800 antialiased'>
                     Confirma tu asistencia
                   </h3>
-                  <h6 className='block font-sans text-base font-normal leading-relaxed tracking-normal text-sage-800 antialiased'>
-                    (y la de tus acompañantes)
-                  </h6>
+                  {guests.length > 0 && (
+                    <h6 className='block font-sans text-base font-normal leading-relaxed tracking-normal text-sage-800 antialiased'>
+                      (y la de tus acompañantes)
+                    </h6>
+                  )}
                 </div>
-                {/* <div className='overflow-y-auto'> */}
-                {guests.map((elem: guest) => (
-                  <PendingGuest key={elem.id} elem={elem}></PendingGuest>
+
+                {[main, ...guests].map((guest: Guest) => (
+                  <PendingGuest
+                    key={guest.id}
+                    guest={guest}
+                    onChange={onChange}
+                  ></PendingGuest>
                 ))}
-                {/* </div> */}
 
                 <div className='sticky bottom-0 bg-white p-4'>
                   <button className='w-full select-none rounded-lg bg-sage-800 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-sage-800/10 transition-all hover:shadow-lg hover:shadow-sage-800/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none'>
@@ -80,22 +95,43 @@ export default function Pending({
   )
 }
 
-function PendingGuest({ elem }: { elem: guest }) {
-  const collapseRef = useRef<HTMLDivElement>(null)
+type PendingGuestProps = {
+  guest: Guest
+  onChange: (id: string, guest: Guest) => void
+}
 
-  useEffect(() => {
-    console.log(collapseRef.current?.attributes.getNamedItem('open'))
-  }, [])
+function PendingGuest({ guest, onChange }: PendingGuestProps) {
+  const handleGuestChange = (guest: Guest) => {
+    onChange(guest.id, guest)
+  }
+
+  const [checked, setChecked] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   return (
-    <div
-      key={elem.id}
-      className='border-slate-100 relative w-full cursor-pointer border-b border-solid px-2'
-      ref={collapseRef}
-    >
+    <div className='border-slate-100 relative w-full cursor-pointer border-b border-solid px-2'>
       <h5
         className='mb-0 inline-flex w-full items-start text-lg'
-        data-collapse-target={`assistance-pending-collapse-${elem.id}`}
+        data-collapse-target={`assistance-pending-collapse-${guest.id}`}
+        onClick={() => {
+          setChecked(!checked)
+          if (checked && guest.properties.RSVP.select) {
+            // TODO: Implement https://developers.notion.com/reference/retrieve-a-database
+            // to get all properties' options (instead of hardcoding them)
+            guest.properties.RSVP.select = {
+              ...guest.properties.RSVP.select,
+              color: 'green',
+              name: 'Confirmed',
+            }
+          } else if (guest.properties.RSVP.select) {
+            guest.properties.RSVP.select = {
+              ...guest.properties.RSVP.select,
+              color: 'red',
+              name: 'Refused',
+            }
+          }
+          handleGuestChange(guest)
+        }}
       >
         <label
           className='relative mt-1 flex items-center rounded-full p-3'
@@ -105,53 +141,30 @@ function PendingGuest({ elem }: { elem: guest }) {
             type='checkbox'
             className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-xl border border-sage-200 transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-12 before:w-12 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:bg-sage-500 before:opacity-0 before:transition-opacity checked:border-sage-700 checked:bg-sage-700 checked:before:bg-sage-700 hover:before:opacity-10"
             id='custom'
-            defaultChecked={collapseRef.current?.hasAttribute('open')}
+            ref={inputRef}
+            checked={checked}
+            onChange={(e) => {}}
           />
           <span className='pointer-events-none absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-3 w-3'
-              viewBox='0 0 20 20'
-              fill='white'
-            >
-              <path
-                fillRule='evenodd'
-                d='M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z'
-                clipRule='evenodd'
-              ></path>
-            </svg>
+            <Image src={heartIcon} height={12} width={12} alt={'hearth'} />
           </span>
         </label>
-        <span className='pointer-events-none absolute left-2/4 right-0 top-2/4 -translate-x-2/4 -translate-y-2/4 pt-1 text-xs text-white opacity-0 transition-opacity group-open:opacity-0 peer-checked:opacity-100'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            className='h-3 w-3'
-            viewBox='0 0 20 20'
-            fill='white'
-          >
-            <path
-              fillRule='evenodd'
-              d='M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z'
-              clipRule='evenodd'
-            ></path>
-          </svg>
-        </span>
         <i className=''></i>
         <i className='fa fa-minus absolute right-0 pt-1 text-xs opacity-0 group-open:opacity-100'></i>
         <span className='text-slate-700 rounded-t-1 group relative flex w-full items-center px-4 py-3 text-left font-semibold text-sage-700 transition-all ease-in'>
-          {elem.properties['Full Name'].title[0].plain_text}
+          {guest.properties['Full Name'].title[0].plain_text}
         </span>
       </h5>
 
       <div
-        data-collapse={`assistance-pending-collapse-${elem.id}`}
+        data-collapse={`assistance-pending-collapse-${guest.id}`}
         className='h-0 w-full overflow-hidden transition-all duration-300 ease-in-out'
       >
         <form className='grid w-full gap-y-2 px-4 pb-2 text-sm leading-normal text-blue-gray-500/80'>
           <div className='relative h-10 w-full min-w-[145px]'>
             <select className='peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-gray-900 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50'>
-              {elem.properties.Type.select.name === 'Infante' && (
-                <option value='Infantil'>Infantil</option>
+              {guest.properties.Type.select?.name === 'Infante' && (
+                <option value='infantil'>Infantil</option>
               )}
               <option value='normal'>Normal</option>
               <option value='vegetariano'>Vegetariano</option>

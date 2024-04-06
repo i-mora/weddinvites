@@ -1,14 +1,16 @@
 'use client'
 
-import { ItineraryActivity } from '@/app/types'
+import MapIcon from '@/public/icons/map.svg'
+import WeatherIcon from '@/public/icons/weather.svg'
+
 import Place from '@/components/Place'
 import Weather from '@/components/Weather'
+import type { ItineraryActivity } from '@/types/Itinerary'
+import { Tab } from '@headlessui/react'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { Icon } from '../Icon'
-import { MapIcon, WeatherIcon } from '../SVGIcons'
-import { Tab } from '@headlessui/react'
 import TooltipIcon from '../TooltipIcon'
 
 interface ItineraryItemProps {
@@ -51,7 +53,12 @@ export function ItineraryItem({ activity }: ItineraryItemProps) {
           {/* TimelineIcon */}
           <div className='flex items-center gap-1'>
             <span className='relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900/10 p-3 text-gray-900'>
-              <Icon name={activity.icon} />
+              <Image
+                src={activity.icon}
+                alt={activity.name}
+                height={32}
+                width={32}
+              />
             </span>
             <h5 className='block font-sans text-base font-semibold leading-relaxed tracking-normal text-blue-gray-900 antialiased'>
               {activity.name}
@@ -80,7 +87,7 @@ export function ItineraryItem({ activity }: ItineraryItemProps) {
                       key={crypto.randomUUID()}
                     >
                       <div className='text-slate-700 mb-0 flex w-full items-center justify-center gap-2 rounded-lg border-0 px-0 py-1 transition-all ease-in-out ui-selected:bg-white'>
-                        {icon({ classStyles: 'h-5 w-5' })}
+                        <Image src={icon} alt={label} height={20} width={20} />
                         <span className='ml-1'>{label}</span>
                       </div>
                     </Tab>
@@ -107,7 +114,7 @@ export function ItineraryItem({ activity }: ItineraryItemProps) {
                 <TooltipIcon
                   key={crypto.randomUUID()}
                   displayText={code.name}
-                  iconName={code.icon}
+                  icon={code.icon}
                 />
               ))}
             </div>

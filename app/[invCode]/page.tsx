@@ -1,16 +1,16 @@
-import Assistance from '@/components/Assistance/Assistance'
-import Navbar from '@/components/NavBar'
-import Image from 'next/image'
-import InvitationIcon from '../../public/invitation.png'
 import DressIcon from '../../public/dress.png'
 import GroomSuitIcon from '../../public/groom-suit.png'
-import SignIcon from '../../public/sign.png'
+import InvitationIcon from '../../public/invitation.png'
 import NewlyWedsIcon from '../../public/newlyweds.png'
-import { Itinerary } from '@/components/Itinerary/Itinerary'
-import { redirect } from 'next/navigation'
-import GETUserInfo from '../services/notionService'
+
+import Assistance from '@/components/Assistance/Assistance'
 import { Gifts } from '@/components/Gifts/Gifts'
-import { ItineraryType } from '../types'
+import { Itinerary } from '@/components/Itinerary/Itinerary'
+import Navbar from '@/components/NavBar'
+import type { ItineraryType } from '@/types/Itinerary'
+import Image from 'next/image'
+import { redirect } from 'next/navigation'
+import { GETUserInfo, MainGuestFilter } from '../services/notionService'
 
 interface InvitationPageProps {
   params: { invCode?: string }
@@ -22,7 +22,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
     redirect(`/`)
   }
   let typeGuest: ItineraryType
-  const user = await GETUserInfo(params.invCode)
+  const [user] = await GETUserInfo(params.invCode, MainGuestFilter)
   if (!user) {
     redirect(`/`)
   }
@@ -33,6 +33,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
   } else {
     typeGuest = 'none' as ItineraryType
   }
+
   return (
     <div className='flex-col items-center justify-between p-4'>
       <Navbar />
@@ -99,7 +100,7 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
               <Image src={InvitationIcon} alt='Invitación' width={32} />
             </span>
           </div>
-          <Assistance code={params.invCode} />
+          <Assistance main={user} />
         </div>
       </div>
     </div>

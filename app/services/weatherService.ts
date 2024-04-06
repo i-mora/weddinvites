@@ -1,6 +1,7 @@
-import { fetchWeatherApi } from 'openmeteo'
-import { ActivityLocation, WeatherData } from '../types'
+import type { ActivityLocation } from '@/types/Itinerary'
+import type { WeatherData } from '@/types/Weather'
 import dayjs from 'dayjs'
+import { fetchWeatherApi } from 'openmeteo'
 
 const params = {
   latitude: 21.8823,

@@ -9,7 +9,7 @@
   perspective: 1000px;
   transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.card svg {
+.card img {
   fill: #000;
   transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border-radius: 3px;
@@ -48,7 +48,7 @@
   font-weight: 700;
 }
 
-.card:hover svg {
+.card:hover img {
   scale: 0;
 }
 

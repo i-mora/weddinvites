@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { Icon } from '../Icon'
 import { MapIcon, WeatherIcon } from '../SVGIcons'
 import { Tab } from '@headlessui/react'
+import TooltipIcon from '../TooltipIcon'
 
 interface ItineraryItemProps {
   activity: ItineraryActivity
@@ -78,7 +79,7 @@ export function ItineraryItem({ activity }: ItineraryItemProps) {
                       className='relative flex h-full w-full select-none items-center justify-center bg-transparent px-2 py-1 text-center font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased'
                       key={crypto.randomUUID()}
                     >
-                      <div className='text-slate-700 ui-selected:bg-white mb-0 flex w-full items-center justify-center gap-2 rounded-lg border-0 px-0 py-1 transition-all ease-in-out'>
+                      <div className='text-slate-700 mb-0 flex w-full items-center justify-center gap-2 rounded-lg border-0 px-0 py-1 transition-all ease-in-out ui-selected:bg-white'>
                         {icon({ classStyles: 'h-5 w-5' })}
                         <span className='ml-1'>{label}</span>
                       </div>
@@ -101,25 +102,13 @@ export function ItineraryItem({ activity }: ItineraryItemProps) {
               </Tab.Group>
             </div>
 
-            <div className='group mt-8 inline-flex w-full flex-wrap items-center justify-center gap-3 p-1'>
+            <div className='flex basis-1/3 items-center justify-center gap-3'>
               {activity.codesConduct?.map((code) => (
-                <div key={crypto.randomUUID()}>
-                  <span
-                    data-tooltip-target='tooltip'
-                    className='cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70'
-                    key={`span-${code.icon}`}
-                  >
-                    <Icon name={code.icon} classStyles='h5 w6' />
-                  </span>
-
-                  <div
-                    data-tooltip='tooltip'
-                    className='absolute z-50 whitespace-normal break-words rounded-lg bg-black px-3 py-1.5 font-sans text-sm font-normal text-white focus:outline-none'
-                    key={`div-${code.icon}`}
-                  >
-                    {code.name}
-                  </div>
-                </div>
+                <TooltipIcon
+                  key={crypto.randomUUID()}
+                  displayText={code.name}
+                  iconName={code.icon}
+                />
               ))}
             </div>
           </div>

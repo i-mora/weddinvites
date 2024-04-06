@@ -1,10 +1,13 @@
-import { MailIcon } from '../SVGIcons'
+import MailIcon from '@/public/icons/mail.svg'
+
+import Image from 'next/image'
 import styles from './envelope.module.css'
+
 export function Envelope() {
   return (
-    <div className='max-w-xs mx-auto max-h-min'>
+    <div className='mx-auto max-h-min max-w-xs'>
       <div className={styles.card}>
-        <MailIcon width='100%' height='100%' />
+        <Image src={MailIcon} alt='mail icon' className='size-full' />
         <div className={styles.card_content}>
           <p className={styles.card_title}>Lluvia de Sobres</p>
           <p className={styles.card_description}>

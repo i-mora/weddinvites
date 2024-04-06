@@ -1,18 +1,18 @@
 'use client'
 
-import { type Place } from '@/app/types'
+import AppleIcon from '@/public/icons/apple.svg'
+import ArrowRightIcon from '@/public/icons/arrow_right.svg'
+import ChevronIcon from '@/public/icons/chevron_down.svg'
+import GoogleMapsIcon from '@/public/icons/google_maps.svg'
+import UberIcon from '@/public/icons/uber.svg'
+import WazeIcon from '@/public/icons/waze.svg'
+
+import type { Place } from '@/types/Itinerary'
+
+import { Dialog, Disclosure, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Fragment, useState } from 'react'
-import {
-  ChevronDown,
-  GoogleMapsIcon,
-  MapsIcon,
-  RightArrowIcon,
-  UberIcon,
-  WazeIcon,
-} from './SVGIcons'
-import { Dialog, Disclosure, Transition } from '@headlessui/react'
 
 interface PlaceProps {
   place: Place
@@ -38,7 +38,7 @@ export default function Place({ place }: PlaceProps) {
       >
         <div className='relative mx-4 mt-4 h-96 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700'>
           <Image
-            src={place.imageURL}
+            src={place.assets.image}
             alt={place.title}
             fill
             sizes='(max-width: 768px) 100vw, 33vw'
@@ -91,26 +91,48 @@ export default function Place({ place }: PlaceProps) {
                     >
                       <Dialog.Panel className='m-4 flex w-2/5 min-w-[40%] max-w-[40%] flex-col gap-2 rounded-lg bg-white p-3 font-sans text-base font-light leading-relaxed text-white antialiased shadow-2xl'>
                         <Link
-                          href={active?.googleMapsURL || ''}
+                          href={active?.links.googleMaps || ''}
                           target='_blank'
                         >
-                          <button className='group relative inline-flex h-12 w-full items-center justify-center gap-4 overflow-hidden rounded-md bg-black px-6 font-medium '>
-                            <GoogleMapsIcon />
+                          <button className='group relative inline-flex h-12 w-full items-center justify-center gap-4 overflow-hidden rounded-md bg-black px-6 font-medium'>
+                            <Image
+                              src={GoogleMapsIcon}
+                              alt='Google Maps icon'
+                              height={24}
+                              width={16.75}
+                            />
                             <span>Google Maps</span>
                             <div className='w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100'>
-                              <RightArrowIcon classStyles='h-5 w-5' />
+                              <Image
+                                src={ArrowRightIcon}
+                                alt='arrow right icon'
+                                height={20}
+                                width={20}
+                              />
                             </div>
                           </button>
                         </Link>
-                        <Link href={active?.uberURL || ''} target='_blank'>
+
+                        <Link href={active?.links.uber || ''} target='_blank'>
                           <button className='group relative inline-flex h-12 w-full items-center justify-center gap-4 overflow-hidden rounded-md bg-black px-6 font-medium text-white'>
-                            <UberIcon />
+                            <Image
+                              src={UberIcon}
+                              alt='Uber icon'
+                              height={24}
+                              width={24}
+                            />
                             <span>Uber</span>
                             <div className='w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100'>
-                              <RightArrowIcon classStyles='h-5 w-5' />
+                              <Image
+                                src={ArrowRightIcon}
+                                alt='arrow right icon'
+                                height={20}
+                                width={20}
+                              />
                             </div>
                           </button>
                         </Link>
+
                         <Disclosure as='div'>
                           {({ open }) => (
                             <>
@@ -121,31 +143,57 @@ export default function Place({ place }: PlaceProps) {
                                     open ? 'rotate-180 transform' : ''
                                   } h-5 w-5`}
                                 >
-                                  <ChevronDown classStyles='h-5 w-5' />
+                                  <Image
+                                    src={ChevronIcon}
+                                    alt='chevron icon'
+                                    height={20}
+                                    width={20}
+                                  />
                                 </div>
                               </Disclosure.Button>
                               <Disclosure.Panel className='flex flex-col gap-2'>
                                 <Link
-                                  href={active?.appleMapsURL || ''}
+                                  href={active?.links.appleMaps || ''}
                                   target='_blank'
                                 >
                                   <button className='group relative inline-flex h-12 w-full items-center justify-center gap-4 overflow-hidden rounded-md bg-black px-6 font-medium text-white'>
-                                    <MapsIcon />
+                                    <Image
+                                      src={AppleIcon}
+                                      alt='Apple icon'
+                                      height={24}
+                                      width={24}
+                                    />
                                     <span>Maps</span>
                                     <div className='w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100'>
-                                      <RightArrowIcon classStyles='h-5 w-5' />
+                                      <Image
+                                        src={ArrowRightIcon}
+                                        alt='arrow right icon'
+                                        height={20}
+                                        width={20}
+                                      />
                                     </div>
                                   </button>
                                 </Link>
+
                                 <Link
-                                  href={active?.wazeURL || ''}
+                                  href={active?.links.waze || ''}
                                   target='_blank'
                                 >
                                   <button className='group relative inline-flex h-12 w-full items-center justify-center gap-4 overflow-hidden rounded-md bg-black px-6 font-medium text-white'>
-                                    <WazeIcon />
+                                    <Image
+                                      src={WazeIcon}
+                                      alt='Waze icon'
+                                      height={24}
+                                      width={24}
+                                    />
                                     <span>Waze</span>
                                     <div className='w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-1 group-hover:opacity-100'>
-                                      <RightArrowIcon classStyles='h-5 w-5' />
+                                      <Image
+                                        src={ArrowRightIcon}
+                                        alt='arrow right icon'
+                                        height={20}
+                                        width={20}
+                                      />
                                     </div>
                                   </button>
                                 </Link>

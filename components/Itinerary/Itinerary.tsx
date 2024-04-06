@@ -1,6 +1,6 @@
-import { ItineraryItem } from './Itinerary-Item'
-import { ItineraryType } from '@/app/types'
 import { Itineraries } from '@/app/lib/consts'
+import { ItineraryType } from '@/types/Itinerary'
+import { ItineraryItem } from './Itinerary-Item'
 
 interface ItineraryProps {
   type: ItineraryType

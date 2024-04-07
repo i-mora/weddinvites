@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@headlessui/tailwindcss": "^0.2.0",
     "@material-tailwind/html": "^2.2.2",
     "@notionhq/client": "^2.2.14",
     "dayjs": "^1.11.10",

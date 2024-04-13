@@ -1,8 +1,4 @@
-import type { Config } from 'tailwindcss'
-
-const withMT = require('@material-tailwind/html/utils/withMT')
-
-const config: Config = withMT({
+module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}', // not used
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -14,6 +10,7 @@ const config: Config = withMT({
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'hero-image': "url('/bgHeroImage.jpg')",
       },
       colors: {
         buff: {
@@ -92,6 +89,4 @@ const config: Config = withMT({
     },
   },
   plugins: [require('@headlessui/tailwindcss')], // not work with 'withMT'
-})
-
-export default config
+}
